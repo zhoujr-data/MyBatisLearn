@@ -8,13 +8,13 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 import java.io.InputStream;
-import java.util.List;
+import java.util.Iterator;
 import java.util.Properties;
 
 /**
  * @author zhoujr
  * created at 2022/5/23 20:35
- * //TODO
+ *
  **/
 public class XMLConfigBuilder {
 
@@ -31,13 +31,14 @@ public class XMLConfigBuilder {
         Document document = new SAXReader().read(in);
         Element rootElement = document.getRootElement();
 
-        List<Element> list = rootElement.selectNodes("//property");
+        Iterator<Element> iterator = rootElement.element("dataSource").elementIterator("property");
         Properties properties = new Properties();
-        list.forEach(e -> {
+        while (iterator.hasNext()) {
+            Element e = iterator.next();
             String name = e.attributeValue("name");
             String value = e.attributeValue("value");
             properties.setProperty(name, value);
-        });
+        }
 
         // 数据源信息
         ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();
@@ -48,14 +49,14 @@ public class XMLConfigBuilder {
         configuration.setDataSource(comboPooledDataSource);
 
         // mapper.xml解析
-        List<Element> mapperList = rootElement.selectNodes("//mapper");
-        for (Element element : mapperList) {
+        Iterator<Element> mapperIter = rootElement.elementIterator("mapper");
+        while (mapperIter.hasNext()) {
+            Element element = mapperIter.next();
             String mapperPath = element.attributeValue("resource");
             InputStream resourceAsStream = Resources.getResourceAsStream(mapperPath);
             XMLMapperBuilder xmlMapperBuilder = new XMLMapperBuilder(configuration);
             xmlMapperBuilder.parse(resourceAsStream);
         }
-
         return configuration;
     }
 }
