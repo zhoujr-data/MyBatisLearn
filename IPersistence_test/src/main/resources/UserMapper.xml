@@ -1,0 +1,12 @@
+<mapper namespace="com.fude.dao.IUserDao">
+
+    <!--  sql的唯一标识：namespace.id来组成：statementId  -->
+    <select id="findAll" resultType="com.fude.pojo.User">
+        select * from user
+    </select>
+<!--  -->
+    <select id="findByUser" resultType="com.fude.pojo.User" parameterType="com.fude.pojo.User">
+        select * from user where id = #{id} and name = #{name}
+    </select>
+
+</mapper>
