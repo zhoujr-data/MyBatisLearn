@@ -11,6 +11,7 @@
     <modules>
         <module>IPersistence_test</module>
         <module>IPersistence</module>
+        <module>MyBatisQuickStarter</module>
     </modules>
 
     <properties>

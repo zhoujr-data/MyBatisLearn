@@ -58,3 +58,16 @@ Mapper.xml : sql语句的配置⽂件信息
 
 ​	方法：getBounfSql(String sql)：完成对#{}的解析工作（**设计模式**）
 
+
+
+
+
+## MyBatis的使用
+
+代理模式开发
+
+加载properties
+
+实体类起别名/常用类别名
+
+动态sql
